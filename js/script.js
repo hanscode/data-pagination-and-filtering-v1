@@ -3,13 +3,6 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
-
 /**
  * This `showPage` function will create and insert/append the elements needed to display a "page" of nine students
  *
@@ -25,11 +18,10 @@ function showPage(list, page) {
    // Selecting the element with a class of `student-list` and assign it to the variable `studentList`
    const studentList = document.querySelector('.student-list');
 
-   // Set the innerHTML property of the variable `studentList` to an empty string.
-   // This is for removing any existing students that might have been displayed previously.
+   // Removing any existing students that might have been displayed previously.
    studentList.innerHTML = '';
 
-   // For loop that runs once for each object over the length of the `list` parameter.
+   // A For loop that runs once for each object over the length of the `list` parameter.
    for (let i = 0; i < list.length; i++) {
       // Conditional statement to display the proper students.
       // if `i` is greater than or equal to the `startIndex` variable and less than the `endIndex` variable. 
@@ -72,11 +64,10 @@ function addPagination(list) {
    // Selecting the element with a class of `link-list` and assign it to the variable `linkList`.
    const linkList = document.querySelector('.link-list');
 
-   // Set the innerHTML property of the variable `linkList` to an empty string. 
-   // This will remove any existing pagination buttons that might have been displayed previously.
+   // Removing any existing pagination buttons that might have been displayed previously.
    linkList.innerHTML = '';
 
-   // loop over the number of pages needed
+   // A For loop that runs once over the number of pages needed: `numOfPages`.
    for (let i = 1; i <= numOfPages; i++) {
 
       // Creating the elements needed to display the pagination button. I have used the traversal method.
@@ -102,7 +93,7 @@ function addPagination(list) {
          // Then remove the "active" class from the previous button
          const previousButton = document.querySelector('.link-list .active');
          previousButton.className = '';
-         // And add the active class to the clicked button
+         // And add the active class to the clicked button element.
          const clickedButton = e.target;
          clickedButton.className = 'active';
 
@@ -112,7 +103,37 @@ function addPagination(list) {
    });
 }
 
+// Search Form
+function search()  { 
+
+   // Creating the elements needed to display a search Component dynamically.
+   const header = document.querySelector('.header');
+   const label = document.createElement('label');
+   const input = document.createElement('input');
+   const span = document.createElement('span');
+   
+   label.htmlFor = 'search';
+   label.className = 'student-search';
+   header.appendChild(label);
+
+   input.type = 'search';
+   input.id = 'search';
+   input.placeholder = 'Search by name...';
+   label.appendChild(input);
+
+   span.textContent = 'Search by name';
+   label.insertBefore(span, input);
+   
+   label.insertAdjacentHTML("beforeend", 
+   `<button type="button">
+      <img src="img/icn-search.svg" alt="Search icon">
+   </button>`
+   );
+
+}
+
 
 // Call functions
 showPage(data, 1);
 addPagination(data);
+search();
