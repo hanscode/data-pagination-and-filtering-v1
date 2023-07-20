@@ -103,15 +103,15 @@ function addPagination(list) {
    });
 }
 
-// Search Form
-function search()  { 
+// Insert Search Form
+function search() {
 
    // Creating the elements needed to display a search Component dynamically.
    const header = document.querySelector('.header');
    const label = document.createElement('label');
    const input = document.createElement('input');
    const span = document.createElement('span');
-   
+
    label.htmlFor = 'search';
    label.className = 'student-search';
    header.appendChild(label);
@@ -123,12 +123,31 @@ function search()  {
 
    span.textContent = 'Search by name';
    label.insertBefore(span, input);
-   
-   label.insertAdjacentHTML("beforeend", 
-   `<button type="button">
+
+   label.insertAdjacentHTML("beforeend",
+      `<button type="button">
       <img src="img/icn-search.svg" alt="Search icon">
    </button>`
    );
+
+   const studentSearch = document.getElementById('search');
+   const students = data;
+      
+   studentSearch.addEventListener('keyup', (e) => {
+      const newStudents = [];
+      let searchValue = e.target.value.toLowerCase();
+      students.forEach(student => {
+         if (student.name.first.toLowerCase().includes(searchValue) || 
+            student.name.last.toLowerCase().includes(searchValue) ) {
+            newStudents.push(student);
+         } else {
+
+         }
+      }); 
+      showPage(newStudents, 1);
+      addPagination(newStudents);
+      
+   });
 
 }
 
