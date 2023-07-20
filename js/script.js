@@ -109,7 +109,7 @@ function addPagination(list) {
 }
 
 /**
- * This `search()` function creates and adds a search bar dynamically and also runs the search functionality.
+ * This `search()` function creates and insert/append a search bar dynamically. Also it runs the search functionality.
  */
 function search() {
 
@@ -141,20 +141,25 @@ function search() {
    const studentSearch = document.getElementById('search');
    const students = data;
    const h2 = document.querySelector('h2');
+   const searchButton = studentSearch.nextElementSibling;
+   const searchForm = label.querySelector('input');
 
    // Arrow function that filters the students data
    const filterStudents = (e) => {
+
       const results = [];
-      let searchValue = e.target.value.toLowerCase();
+      // Get the search text value if the event target refers either to the click event or to the keyup event.
+      let searchValue = e.target.tagName === 'INPUT' ? e.target.value.toLowerCase() : searchForm.value.toLowerCase();
+
       students.forEach(student => {
          if (student.name.first.toLowerCase().includes(searchValue) ||
             student.name.last.toLowerCase().includes(searchValue)) {
             results.push(student);
          }
       });
+      // If no matches are found for a student search, display a “No results found” type message on the page.
       if (results.length === 0) {
          h2.textContent = 'No results found';
-
       } else {
          h2.textContent = 'STUDENTS';
       }
@@ -165,6 +170,7 @@ function search() {
 
    // Event Handler for displaying the filtered students
    studentSearch.addEventListener('keyup', filterStudents);
+   searchButton.addEventListener('click', filterStudents);
 
 }
 
