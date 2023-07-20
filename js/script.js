@@ -49,8 +49,6 @@ function showPage(list, page) {
 
 }
 
-
-
 /**
  * This `addPagination` will create and insert/append the elements needed for the pagination buttons.
  * @param {array} list - This parameter represents an array of student objects.
@@ -70,20 +68,27 @@ function addPagination(list) {
    // A For loop that runs once over the number of pages needed: `numOfPages`.
    for (let i = 1; i <= numOfPages; i++) {
 
-      // Creating the elements needed to display the pagination button. I have used the traversal method.
-      let li = document.createElement('li');
-      let button = document.createElement('button');
-      button.type = 'button';
-      button.textContent = i;
-      li.appendChild(button);
-      // insert the above elements
-      linkList.appendChild(li);
-
+      if (list.length > 9) {
+         // Check If there are more than 9 students on the list:
+         // Then create the elements needed to display the pagination button.
+         let li = document.createElement('li');
+         let button = document.createElement('button');
+         button.type = 'button';
+         button.textContent = i;
+         li.appendChild(button);
+         // insert the above elements
+         linkList.appendChild(li);
+      }
    }
 
-   // Giving the first pagination button a class of "active"
-   const firstButton = linkList.firstElementChild.firstElementChild;
-   firstButton.className = 'active';
+   if (list.length !== 0 && list.length > 9) {
+      /**
+       * Add to the first pagination button a class of "active" as long as the list arrya is not empty
+       * and the numbers of students on the list is greater than 9.
+       */
+      const firstButton = linkList.firstElementChild.firstElementChild;
+      firstButton.className = 'active';
+   }
 
 
    // Evvent listener on the `link-list` element.
@@ -103,7 +108,9 @@ function addPagination(list) {
    });
 }
 
-// Insert Search Form
+/**
+ * This `search()` function creates and adds a search bar dynamically and also runs the search functionality.
+ */
 function search() {
 
    // Creating the elements needed to display a search Component dynamically.
@@ -130,24 +137,34 @@ function search() {
    </button>`
    );
 
+   // Creating the variables needed to filter the students list
    const studentSearch = document.getElementById('search');
    const students = data;
-      
-   studentSearch.addEventListener('keyup', (e) => {
-      const newStudents = [];
+   const h2 = document.querySelector('h2');
+
+   // Arrow function that filters the students data
+   const filterStudents = (e) => {
+      const results = [];
       let searchValue = e.target.value.toLowerCase();
       students.forEach(student => {
-         if (student.name.first.toLowerCase().includes(searchValue) || 
-            student.name.last.toLowerCase().includes(searchValue) ) {
-            newStudents.push(student);
-         } else {
-
+         if (student.name.first.toLowerCase().includes(searchValue) ||
+            student.name.last.toLowerCase().includes(searchValue)) {
+            results.push(student);
          }
-      }); 
-      showPage(newStudents, 1);
-      addPagination(newStudents);
-      
-   });
+      });
+      if (results.length === 0) {
+         h2.textContent = 'No results found';
+
+      } else {
+         h2.textContent = 'STUDENTS';
+      }
+      showPage(results, 1);
+      addPagination(results);
+
+   }
+
+   // Event Handler for displaying the filtered students
+   studentSearch.addEventListener('keyup', filterStudents);
 
 }
 
